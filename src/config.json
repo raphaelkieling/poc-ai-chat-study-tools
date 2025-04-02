@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "component-sync": {
+      "command": "node",
+      "args": [
+        "--experimental-modules",
+        "/Users/kieling/dev/test-mcp/src/main.js"
+      ],
+      "env": {
+        "DATABASE_URL": "postgres://rewards:rewards@localhost/component-sync"
+      }
+    }
+  }
+}
