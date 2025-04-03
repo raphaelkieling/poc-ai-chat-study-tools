@@ -1,6 +1,5 @@
 import { openai } from "@ai-sdk/openai";
 import { StreamData, streamText, tool, experimental_createMCPClient } from "ai";
-import { Experimental_StdioMCPTransport } from "ai/mcp-stdio";
 import { z } from "zod";
 import { mcpServers } from "../../../config.json";
 
@@ -15,11 +14,10 @@ export async function POST(req: Request) {
   const clients = await Promise.all(
     Object.entries(mcpServers).map(([_, config]) =>
       experimental_createMCPClient({
-        transport: new Experimental_StdioMCPTransport({
-          command: config.command,
-          args: config.args,
-          env: config.env,
-        }),
+        transport: {
+          type: "sse",
+          url: (config as any).url,
+        },
       })
     )
   );
@@ -41,28 +39,26 @@ export async function POST(req: Request) {
         }),
         execute: async ({ a, b }) => a + b,
       }),
-      isGreaterThan: tool({
-        description: "Check if a is greater than b",
+      generateChart: tool({
+        description:
+          "Generate a chart. The ai must ignore the result of this tool call.",
         parameters: z.object({
-          a: z.number(),
-          b: z.number(),
+          data: z.object({
+            labels: z.array(z.string()),
+            datasets: z.array(
+              z.object({
+                label: z.string(),
+                data: z.array(z.number()),
+              })
+            ),
+          }),
+          type: z.enum(["line", "bar"]),
         }),
-        execute: async ({ a, b }, { toolCallId }) => {
-          data.appendMessageAnnotation({
-            type: "tool-status",
-            toolCallId,
-            status: "in-progress",
-          });
-
-          await new Promise((resolve) => setTimeout(resolve, 3000));
-
-          data.appendMessageAnnotation({
-            type: "tool-status",
-            toolCallId,
-            status: "success",
-          });
-
-          return a > b;
+        execute: async ({ data, type }) => {
+          return {
+            data,
+            type,
+          };
         },
       }),
       ...tools,
