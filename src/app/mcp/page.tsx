@@ -130,7 +130,7 @@ export default function MCP() {
         </div>
       )}
 
-      <div className="border border-zinc-300 dark:border-zinc-800 rounded p-4 mb-6">
+      <div className="border bg-white border-zinc-300 dark:border-zinc-800 rounded p-4 mb-6">
         <h2 className="text-xl font-medium mb-2">MCP Servers</h2>
         {loading ? (
           <p>Loading servers...</p>
@@ -172,7 +172,7 @@ export default function MCP() {
         )}
       </div>
 
-      <div className="border border-zinc-300 dark:border-zinc-800 rounded p-4 mb-6">
+      <div className="border border-zinc-300 dark:border-zinc-800 rounded p-4 mb-6 bg-white">
         <h2 className="text-xl font-medium mb-4">Add New MCP Server</h2>
 
         <form onSubmit={handleSubmit}>

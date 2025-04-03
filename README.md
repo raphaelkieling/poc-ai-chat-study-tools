@@ -2,6 +2,8 @@
 
 You just need an `.env.local` with your valid `OPENAI_API_KEY`.
 
+Also, it accepts SSE MCP Servers.
+
 ```bash
 npm run dev
 # or

@@ -3,6 +3,9 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --dot-color: rgba(17, 17, 17, 0.05);
+  --dot-size: 2px;
+  --dot-space: 22px;
 }
 
 @theme inline {
@@ -16,11 +19,15 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --dot-color: rgba(237, 237, 237, 0.05);
   }
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
+  background-image: radial-gradient(var(--dot-color) var(--dot-size), transparent var(--dot-size));
+  background-size: var(--dot-space) var(--dot-space);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
 }
